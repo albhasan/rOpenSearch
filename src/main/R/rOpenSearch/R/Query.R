@@ -14,7 +14,7 @@
 #' df.params$value[df.params$type == "time:end"] <- "2010-01-31"
 #' res <- Query(osd.url, "application/rdf+xml", df.params)
 #' }
-#' 
+#'
 #' @export
 #' @import httr
 #' @import RCurl
@@ -23,7 +23,7 @@
 Query <- function(opensearch.description, response.type, df.params) {
 
   if(IsURLInvalid(opensearch.description)) { stop("Invalid OpenSearch description document") }
- 
+
   # cleanup the params data frame: remove the NAs if any and keep columns type and value
   df.params <- subset(df.params[complete.cases(df.params),], select=c("type", "value"))
 
@@ -41,12 +41,16 @@ Query <- function(opensearch.description, response.type, df.params) {
   # create a named list
   params <- as.list(df.query$value)
   names(params) <- df.query$param
-  
+
   # break-down the URL and build the querystring
-  url <- parse_url(GetOSTemplate(opensearch.description, response.type))
-  
+  url <- httr::parse_url(GetOSTemplate(opensearch.description, response.type))
+
   url$query <- params
-  
-  return(getURL(build_url(url), ssl.verifypeer = FALSE))
+
+  print("-----------------------------------------------")
+print(httr::build_url(url), ssl.verifypeer = FALSE)
+  print("-----------------------------------------------")
+
+  return(RCurl::getURL(httr::build_url(url), ssl.verifypeer = FALSE))
 
 }
