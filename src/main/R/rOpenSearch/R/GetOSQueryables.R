@@ -34,11 +34,11 @@ GetOSQueryables <- function(opensearch.description, response.type) {
 
   # remove the {, }, ? from the type
   df.template <- as.data.frame(sapply(df.full.template, function(x) {
-    x <- str_replace_all(x, "([\\{\\}\\?])", "")
+    x <- stringr::str_replace_all(x, "([\\{\\}\\?])", "")
   }))
 
   df.template[, 3] <-  as.data.frame(t(t(sapply(value, function(x) {
-    x <- str_replace_all(x, "([\\{\\}\\?])", NA)
+    x <- stringr::str_replace_all(x, "([\\{\\}\\?])", NA_character_)
   }))))
 
   # set the column names to type/value, it will be very useful for the Query function params argument

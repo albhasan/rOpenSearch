@@ -19,8 +19,8 @@ GetOSTemplate <- function(opensearch.description, response.type) {
  
   
   
-  osd.xml <- xmlInternalTreeParse(getURL(opensearch.description, ssl.verifypeer = FALSE))
-  
+  osd.xml <- xmlInternalTreeParse(getURL(opensearch.description, ssl.verifypeer = FALSE, .opts = curlOptions(FOLLOWLOCATION = TRUE)))
+
   xslt.expression <- paste0("/*[local-name()='OpenSearchDescription']/*[local-name()='Url' and @type='",
       response.type ,"']/@template")
   
